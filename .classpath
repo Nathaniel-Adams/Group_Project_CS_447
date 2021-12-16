@@ -8,25 +8,21 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="Slick2D/jinput.jar">
 		<attributes>
-			<attribute name="module" value="true"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="looter/Slick2D/Natives"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="Slick2D/lwjgl_util.jar">
 		<attributes>
-			<attribute name="module" value="true"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="looter/Slick2D/Natives"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="Slick2D/lwjgl.jar">
 		<attributes>
-			<attribute name="module" value="true"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="looter/Slick2D/Natives"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="Slick2D/slick.jar">
 		<attributes>
-			<attribute name="module" value="true"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="looter/Slick2D/Natives"/>
 		</attributes>
 	</classpathentry>

@@ -1,13 +1,10 @@
 package looter;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.state.StateBasedGame;
 
 enum GameState{
