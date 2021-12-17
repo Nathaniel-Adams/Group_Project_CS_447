@@ -82,8 +82,8 @@ public class Bullet {
 	public boolean checkMapCollision(WorldMap map, Vector3f next_pos) {
 		Room room = map.Dungeon.get(this.room);
 		int next = room.getBlock(next_pos);
-		float test = BitMasker.getMaxHeight(next)/32f;
-		if(next > 0 && BitMasker.getMaxHeight(next)/32f < position.z) { // make sure the bullet is higher than the block
+		float test = BitMasker.getMaxHeight(next)/32f + (int)(Math.floor(position.z)); 
+		if(BitMasker.getMaxHeight(next)/32f + (int)(Math.floor(position.z)) < position.z) { // make sure the bullet is higher than the block
 			return true;
 		}
 		return false;

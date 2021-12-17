@@ -26,6 +26,7 @@ public class Actor {
 	float width = 1/6f;
 	float step = 0.26f;
 	float speed = 1f;
+	float grace = 0f;
 	
 	Vector3f safePosition;
 	
@@ -92,6 +93,8 @@ public class Actor {
 	public void update(WorldSpace world, float delta) {
 		applyGravity(world.map, delta);
 		position.z += velocity*delta;
+		if (grace > 0) 
+			grace -= delta;
 	}
 
 
@@ -141,8 +144,9 @@ public class Actor {
 	
 	public void jump() {
 		if(numJump > 0) {
-			
 			velocity = 2;
+			numJump--;
+			grace = .1f;
 		}
 	}
 	
@@ -150,7 +154,7 @@ public class Actor {
 	
 	private void applyGravity(WorldMap map, float delta) {
 		Room room = map.Dungeon.get(currentRoom);
-		if (isOnFloor(map)) {
+		if (isOnFloor(map) && grace <= 0) {
 			velocity = 0;
 			numJump = MAXJUMP;
 			safePosition = position;
