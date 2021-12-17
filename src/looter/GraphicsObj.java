@@ -46,6 +46,15 @@ public class GraphicsObj implements Comparable<GraphicsObj>{
 		this.layer = layer*(float)(Hangle/Math.abs(Hangle)*100);
 	}
 	
+	public GraphicsObj(Image sprite, Vector2f pos, float scalar, Camera cam, float layer, double angle) {
+		this.sprite = sprite;
+		this.pos = new Vector2f(pos);
+		this.scale = cam.zoom/sprite.getWidth()*scalar;
+		this.angle = cam.rotation - Math.PI/4 - angle;
+		this.Hangle = cam.angle;
+		this.layer = layer*(float)(Hangle/Math.abs(Hangle)*100);
+	}
+	
 	public void draw() {
 		Vector2f left_top = calculate_point(angle);
 		Vector2f right_top = calculate_point(angle+Math.PI/2);

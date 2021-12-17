@@ -8,7 +8,11 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.RoundedRectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.gui.GUIContext;
+import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -22,7 +26,7 @@ public class MainMenuState extends BasicGameState  {
 	LooterGame Game;
 	Input input; // player input listener
 	float delta; // multiply any unit by this value to convert to units per second
-//	Camera cam;
+	Camera cam;
 	
 	Image TestTexture;
 	ArrayList<Button> buttons;
@@ -35,11 +39,11 @@ public class MainMenuState extends BasicGameState  {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 //		g.resetTransform();
-//		g.translate(cam.pos.x, cam.pos.y);
-//		g.scale(cam.zoom, cam.zoom);
+		g.translate(cam.pos.x, cam.pos.y);
+		g.scale(cam.zoom, cam.zoom);
 		g.setColor(Color.green);
 		String temp = "Main Menu";
-		g.drawString(temp, Game.ScreenWidth/2-(float)temp.length()*4.58f, Game.ScreenHeight/2);
+		g.drawString(temp, Game.ScreenWidth/2/cam.zoom-(float)temp.length()*4.58f, Game.ScreenHeight/2/cam.zoom);
 		g.resetTransform();
 		g.setColor(Color.white);
 		
@@ -64,7 +68,7 @@ public class MainMenuState extends BasicGameState  {
 			if (button.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				switch (button.type){
 				case TRANSITIONBUTTON:
-//					if ("Host Game".equals(button.text)) Game.is_hosting = true;
+					if ("Host Game".equals(button.text)) Game.is_hosting = true;
 					Game.enterState(button.flag, new FadeOutTransition(), new FadeInTransition());
 				default:
 					System.out.println("button " + buttons.indexOf(button)+ " pressed");
@@ -87,8 +91,8 @@ public class MainMenuState extends BasicGameState  {
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException { //called for EVERY entrance
 		input.clearKeyPressedRecord();
 		Game.setLastState(getID());
-//		cam = new Camera();
-//		cam.zoom = 1;
+		cam = new Camera();
+		cam.zoom = 1;
 	}
 	
 	@Override
@@ -128,6 +132,11 @@ public class MainMenuState extends BasicGameState  {
 		tempButton.setType(ButtonType.TRANSITIONBUTTON);
 		tempButton.setFlag(GameState.PLAYINGSTATE.ordinal());
 		buttons.add(tempButton);
+		
+		tempButton = new Button(container, TestTexture, xCoord, (int)(yCoord)+3*yOffset, "Map Dev");
+		tempButton.setType(ButtonType.TRANSITIONBUTTON);
+		tempButton.setFlag(GameState.MAPEDITOR.ordinal());
+		buttons.add(tempButton);
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -145,8 +154,8 @@ public class MainMenuState extends BasicGameState  {
 	public void mouseDragged(int old_x, int old_y, int new_x, int new_y) {
 //		System.out.println(old_x+","+old_y+"|"+new_x+","+new_y);
 		Vector2f moved = new Vector2f(new_x - old_x, new_y - old_y);
-//		cam.pos.setX(moved.x+cam.pos.x);
-//		cam.pos.setY(moved.y+cam.pos.y);
+		cam.pos.setX(moved.x+cam.pos.x);
+		cam.pos.setY(moved.y+cam.pos.y);
 	}
 
 }

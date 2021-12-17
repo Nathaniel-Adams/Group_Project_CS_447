@@ -1,5 +1,6 @@
 package looter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -21,8 +22,11 @@ enum RoomType{
 	boss
 }
 
-public class Room {
+public class Room implements Serializable{
 
+	
+	
+	private static final long serialVersionUID = 1L;
 	boolean isActive = false;
 	int [][][] map;
 	Vector3f offset = new Vector3f();
