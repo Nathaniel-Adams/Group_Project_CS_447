@@ -128,6 +128,10 @@ public class PlayingState extends BasicGameState  {
 		if (input.isKeyPressed(Input.KEY_TAB)) {
 			debug = !debug;
 		}
+		
+		if (input.isKeyPressed(Input.MOUSE_LEFT_BUTTON)) {
+			world.players.get(world.MyPlayerID).weapon.fire(world.players.get(world.MyPlayerID).bullets, delta);
+		}
 	}
 	
 	public void keyPressed(int key, char code) {
