@@ -14,7 +14,6 @@ public class Player {
 //	ArrayList<Bullet> bullets;
 //	Weapon weapon;
 	
-	double temp = 0;
 	
 	public Player(int id, Vector3f position) {
 		this.id = id;
@@ -36,29 +35,22 @@ public class Player {
 //			System.out.println(actor.position);
 		}
 		actor.update(world, delta);
-//		if (weapon != null) {
-//			Vector3f.add(actor.position, actor.dir, weapon.position);
-//			weapon.dir=actor.dir;
-//		}
+		
 	}
 	
 	
 	public void move(Input input, WorldSpace world, float delta) {
 		
-		Vector2f mouse_pos = new Vector2f(input.getMouseX(), input.getMouseY()); 
-		Vector2f offset = new Vector2f(actor.position.x, actor.position.y - (actor.height*.6f)*(float)Math.cos(world.cam.angle));
-		double angle = VectorMath.angleTo(offset, VectorMath.calculateSkewDir(mouse_pos, world.cam)) + world.cam.rotation;
-		VectorMath.setRotation2d(actor.dir, angle);
-		
-		
-		System.out.println(offset);
-		
 		float x = (input.isKeyDown(Input.KEY_D)? 1 : 0) - (input.isKeyDown(Input.KEY_A)? 1 : 0);
 		float y = (input.isKeyDown(Input.KEY_S)? 1 : 0) - (input.isKeyDown(Input.KEY_W)? 1 : 0);
 		Vector2f mov_dir = (Vector2f) new Vector2f(x,y).scale(delta);
+//		if(mov_dir.length()!=0) {
+//		mov_dir.normalise();
+//		System.out.println(VectorMath.normalise(mov_dir));
 		VectorMath.rotate(mov_dir, world.cam.rotation);
+//			System.out.println(mov_dir);
 		actor.move(world.map,mov_dir, delta);
-
+//		}
 		
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			actor.jump();
