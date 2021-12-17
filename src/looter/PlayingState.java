@@ -39,12 +39,24 @@ public class PlayingState extends BasicGameState  {
 	
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		world.render(container, Game, g);
+		if (world != null) {
+			world.render(container, Game, g);
+			g.drawString(""+Game.mpID+"|"+world.MyPlayerID,Game.ScreenWidth/2-(float)"Waiting for Host".length()*4.58f, Game.ScreenHeight/2);
+			g.drawString(""+Game.is_online+"|"+Game.is_hosting, Game.ScreenWidth/2-(float)"Waiting for Host".length()*4.58f, Game.ScreenHeight/2+20f);
+			if (GameServer.world != null)g.drawString(""+GameServer.world.map, Game.ScreenWidth/2-(float)"GameServer".length()*4.58f, Game.ScreenHeight/2+40f);
+		}
+		else {
+			g.drawString("Waiting for Host",Game.ScreenWidth/2-(float)"Waiting for Host".length()*4.58f, Game.ScreenHeight/2);
+			g.drawString(""+Game.mpID+"|",Game.ScreenWidth/2-(float)"Waiting for Host".length()*4.58f, Game.ScreenHeight/2+40f);
+			g.drawString(""+Game.is_online+"|"+Game.is_hosting, Game.ScreenWidth/2-(float)"Waiting for Host".length()*4.58f, Game.ScreenHeight/2+20f);
+		}
+		
 		if (debug) {
 			DebugRenderer.renderDebugGrid(g,world.cam, world.map.Dungeon.get(0));
 			DebugRenderer.renderDebugScaffold(g,world.cam, world.map.Dungeon.get(0));
 		}
 	}
+	
 	
 	
 
@@ -54,7 +66,10 @@ public class PlayingState extends BasicGameState  {
 //		System.out.println(input.getMouseX() + " | "+ input.getMouseY());
 		delta = (float)milidelta/1000f;
 		handleInput();
-		world.update(container, Game, delta);
+		if (world!= null) {
+			world.update(container, Game, delta);
+		}
+		
 //		System.out.println(cam.zoom);
 	}
 
@@ -71,18 +86,21 @@ public class PlayingState extends BasicGameState  {
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException { //called for EVERY entrance
 		input.clearKeyPressedRecord();
-		world = new WorldSpace();
-		world.init(container, Game);
+		if (!Game.is_online && Game.worldspace == null) {
+			world = new WorldSpace();
+			world.init();
+			world.startGame(1);
+			Game.worldspace=world;
+		}
+		else if (Game.worldspace!=null) {
+			world = Game.worldspace;
+			world.addPlayers(1);
+		}
+		
+		
 //		world.map.print();
-		Game.worldspace=world;
+		
 
-		LooterGame LG = (LooterGame) game;
-        if(LG.rooms == null) {
-            world.map.demoAdd();
-            world.map.demoAdd();
-        } else {
-            world.map.add(LG.curr);
-        }
 	}
 	
 	@Override
@@ -102,28 +120,48 @@ public class PlayingState extends BasicGameState  {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void handleInput() {
-		if(input.isKeyPressed(Input.KEY_UP)) {
-			int set = BitMasker.getMaxHeight(world.map.Dungeon.get(0).map[0][2][0]);
-			world.map.Dungeon.get(0).map[0][2][0] = BitMasker.setMaxHeight(world.map.Dungeon.get(0).map[0][2][0], set+1);   
+		if (world != null) {
+			if (input.isKeyPressed(Input.KEY_UP)) {
+				int set = BitMasker.getMaxHeight(world.map.Dungeon.get(0).map[0][2][0]);
+				world.map.Dungeon.get(0).map[0][2][0] = BitMasker.setMaxHeight(world.map.Dungeon.get(0).map[0][2][0],
+						set + 1);
+			}
+			if (input.isKeyDown(Input.KEY_DOWN)) {
+				int set = BitMasker.getMaxHeight(world.map.Dungeon.get(0).map[0][2][0]);
+				world.map.Dungeon.get(0).map[0][2][0] = BitMasker.setMaxHeight(world.map.Dungeon.get(0).map[0][2][0],
+						set - 1);
+			}
+			if (input.isKeyDown(Input.KEY_LEFT)) {
+				System.out.println(world.map.Dungeon.get(0).map[0][2][0] + " | "
+						+ Integer.toBinaryString(world.map.Dungeon.get(0).map[0][2][0]));
+			}
+			if (input.isKeyDown(Input.KEY_RIGHT)) {
+				System.out.println(BitMasker.setEffectIndex(0, 7));
+			}
+			if (input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON))
+				world.cam.lock = false;
+			else
+				world.cam.lock = true;
+			if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+				Game.enterState(Game.getLastState(), new FadeOutTransition(), new FadeInTransition());
+			} 
+			
+			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !world.players.isEmpty() ) {
+				world.players.get(world.MyPlayerID).weapon.fire(world.players.get(world.MyPlayerID).bullets, delta, world.players.get(world.MyPlayerID).actor.currentRoom);
+			}
+			
+			if (input.isKeyPressed(Input.KEY_1) && !world.players.isEmpty()) {
+				world.players.get(world.MyPlayerID).weapon.setType(1);
+			}
+			
+			if (input.isKeyPressed(Input.KEY_2) && !world.players.isEmpty()) {
+				world.players.get(world.MyPlayerID).weapon.setType(2);
+			}
+			
+			if (input.isKeyPressed(Input.KEY_3) && !world.players.isEmpty()) {
+				world.players.get(world.MyPlayerID).weapon.setType(3);
+			}
 		}
-		if(input.isKeyDown(Input.KEY_DOWN)) {
-			int set = BitMasker.getMaxHeight(world.map.Dungeon.get(0).map[0][2][0]);
-			world.map.Dungeon.get(0).map[0][2][0] = BitMasker.setMaxHeight(world.map.Dungeon.get(0).map[0][2][0], set-1);
-		}
-		if(input.isKeyDown(Input.KEY_LEFT)) {
-			System.out.println(world.map.Dungeon.get(0).map[0][2][0] +" | "+ Integer.toBinaryString(world.map.Dungeon.get(0).map[0][2][0]));
-		}
-		if(input.isKeyDown(Input.KEY_RIGHT)) {
-			System.out.println(BitMasker.setEffectIndex(0, 7));
-		}
-		
-		if(input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) world.cam.lock = false;
-		else world.cam.lock = true;
-		
-		if(input.isKeyPressed(Input.KEY_ESCAPE)) {
-			 Game.enterState(Game.getLastState(), new FadeOutTransition(), new FadeInTransition());
-		}
-		
 		if(input.isKeyPressed(Input.KEY_P)) {
 			world.addPlayer();
 		}
@@ -136,21 +174,7 @@ public class PlayingState extends BasicGameState  {
 			debug = !debug;
 		}
 		
-		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !world.players.isEmpty() ) {
-			world.players.get(world.MyPlayerID).weapon.fire(world.players.get(world.MyPlayerID).bullets, delta, world.players.get(world.MyPlayerID).actor.currentRoom);
-		}
 		
-		if (input.isKeyPressed(Input.KEY_1) && !world.players.isEmpty()) {
-			world.players.get(world.MyPlayerID).weapon.setType(1);
-		}
-		
-		if (input.isKeyPressed(Input.KEY_2) && !world.players.isEmpty()) {
-			world.players.get(world.MyPlayerID).weapon.setType(2);
-		}
-		
-		if (input.isKeyPressed(Input.KEY_3) && !world.players.isEmpty()) {
-			world.players.get(world.MyPlayerID).weapon.setType(3);
-		}
 	}
 	
 	public void keyPressed(int key, char code) {

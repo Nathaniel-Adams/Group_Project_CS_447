@@ -74,8 +74,9 @@ public class LevelPreview extends BasicGameState  {
 			if (button.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				switch (button.type){
 				case TRANSITIONBUTTON:
-					Game.curr = room;
-					Game.rooms = rooms;
+					Game.worldspace = new WorldSpace();
+					Game.worldspace.init();
+					Game.worldspace.map.Dungeon.put(0,room);
 					Game.enterState(button.flag, new FadeOutTransition(), new FadeInTransition());
 					break;
 				case TOGGLEBUTTON:
