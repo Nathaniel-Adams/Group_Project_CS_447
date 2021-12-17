@@ -37,7 +37,7 @@ public class Room {
 	float gravity = -1;
 	int RoomLight = 15;
 	
-//	ArrayList<Objective> objectiveList;
+	ArrayList<Objective> objectiveList;
 	
 	
 	ArrayList<Vector3f> hazards;

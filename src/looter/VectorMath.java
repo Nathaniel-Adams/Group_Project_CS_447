@@ -15,6 +15,10 @@ public class VectorMath {
 		return StrictMath.atan2(vec.y, vec.x) % 360.0;
 	} 
 	
+	public static double getRotation(Vector3f vec) {
+		return StrictMath.atan2(vec.y, vec.x) % 360.0;
+	} 
+	
 	public static void setRotation2d(Vector2f vec, double angle) {
 		double t = angle % (2*Math.PI);
 		float len = vec.length();

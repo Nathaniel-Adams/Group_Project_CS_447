@@ -41,9 +41,12 @@ public class PlayingState extends BasicGameState  {
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		world.render(container, Game, g);
 		if (debug) {
-			
+			DebugRenderer.renderDebugGrid(g,world.cam, world.map.Dungeon.get(0));
+			DebugRenderer.renderDebugScaffold(g,world.cam, world.map.Dungeon.get(0));
 		}
 	}
+	
+	
 
 	
 	@Override
@@ -92,7 +95,7 @@ public class PlayingState extends BasicGameState  {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void handleInput() {
-		if(input.isKeyDown(Input.KEY_UP)) {
+		if(input.isKeyPressed(Input.KEY_UP)) {
 			int set = BitMasker.getMaxHeight(world.map.Dungeon.get(0).map[0][2][0]);
 			world.map.Dungeon.get(0).map[0][2][0] = BitMasker.setMaxHeight(world.map.Dungeon.get(0).map[0][2][0], set+1);   
 		}
@@ -114,13 +117,13 @@ public class PlayingState extends BasicGameState  {
 			 Game.enterState(Game.getLastState(), new FadeOutTransition(), new FadeInTransition());
 		}
 		
-//		if(input.isKeyPressed(Input.KEY_P)) {
-//			world.addPlayer();
-//		}
-//		
-//		if(input.isKeyPressed(Input.KEY_O)) {
-//			world.addEnemy();
-//		}
+		if(input.isKeyPressed(Input.KEY_P)) {
+			world.addPlayer();
+		}
+		
+		if(input.isKeyPressed(Input.KEY_O)) {
+			world.addEnemy();
+		}
 		
 		if (input.isKeyPressed(Input.KEY_TAB)) {
 			debug = !debug;

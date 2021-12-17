@@ -116,12 +116,12 @@ public class MainMenuState extends BasicGameState  {
 		int yOffset = TestTexture.getHeight()+10;
 		Button tempButton = new Button(container, TestTexture, xCoord, (int)(yCoord), "Host Game");
 		tempButton.setType(ButtonType.TRANSITIONBUTTON);
-		tempButton.setFlag(GameState.LOBBYSTATE.ordinal());
+		tempButton.setFlag(GameState.PLAYINGSTATE.ordinal());
 		buttons.add(tempButton);
 		
 		tempButton = new Button(container, TestTexture, xCoord, (int)(yCoord)+yOffset, "Join Game");
 		tempButton.setType(ButtonType.TRANSITIONBUTTON);
-		tempButton.setFlag(GameState.LOBBYSTATE.ordinal());
+		tempButton.setFlag(GameState.PLAYINGSTATE.ordinal());
 		buttons.add(tempButton);
 		
 		tempButton = new Button(container, TestTexture, xCoord, (int)(yCoord)+2*yOffset, "Single Player");
