@@ -1,11 +1,12 @@
 # Pending #
 
-- [6] Enemy AI
-- [7] Map Objectives
-- [8] Bosses
-- [9] Multiplayer
-- [10] Weapon Randomization
-- [11] Dungeon Randomization
+- [6] Movement and room bug fixes
+- [7] Multiplayer
+- [8] Enemy AI
+- [9] Map Objectives
+- [10] Bosses
+- [11] Weapon Randomization
+- [12] Dungeon Randomization
 
 # Resolved #
 
