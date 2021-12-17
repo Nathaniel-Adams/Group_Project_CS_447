@@ -19,7 +19,7 @@ public class TitleScreenState extends BasicGameState  {
 	LooterGame Game;
 	Input input; // player input listener
 	float delta; // multiply any unit by this value to convert to units per second
-//	Camera cam;
+	Camera cam;
 	
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,12 +29,12 @@ public class TitleScreenState extends BasicGameState  {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 //		g.resetTransform();
-//		g.translate(cam.pos.x, cam.pos.y);
+		g.translate(cam.pos.x, cam.pos.y);
 		g.setColor(Color.green);
 		String temp = "Looter Game";
-		g.drawString(temp, Game.ScreenWidth/2-(float)temp.length()*4.58f, Game.ScreenHeight/2);
+		g.drawString(temp, Game.ScreenWidth/2/cam.zoom-(float)temp.length()*4.58f, Game.ScreenHeight/2/cam.zoom);
 		temp = "PRESS SPACE";
-		g.drawString(temp, Game.ScreenWidth/2-(float)temp.length()*4.58f, Game.ScreenHeight/2+50f);
+		g.drawString(temp, Game.ScreenWidth/2/cam.zoom-(float)temp.length()*4.58f, Game.ScreenHeight/2/cam.zoom+50f);
 		g.resetTransform();
 		g.setColor(Color.white);
 	}
@@ -60,7 +60,7 @@ public class TitleScreenState extends BasicGameState  {
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException { //called for EVERY entrance
 		input.clearKeyPressedRecord();
 		Game.setLastState(getID());
-//		cam = new Camera();
+		cam = new Camera();
 	}
 	
 	@Override
@@ -90,8 +90,8 @@ public class TitleScreenState extends BasicGameState  {
 	public void mouseDragged(int old_x, int old_y, int new_x, int new_y) {
 //		System.out.println(old_x+","+old_y+"|"+new_x+","+new_y);
 		Vector2f moved = new Vector2f(new_x - old_x, new_y - old_y);
-//		cam.pos.setX(moved.x+cam.pos.x);
-//		cam.pos.setY(moved.y+cam.pos.y);
+		cam.pos.setX(moved.x+cam.pos.x);
+		cam.pos.setY(moved.y+cam.pos.y);
 	}
 
 }

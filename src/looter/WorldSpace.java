@@ -19,7 +19,7 @@ public class WorldSpace {
 	
 	public ArrayList<Player> players;
 	public ArrayList<Enemy> enemies;
-	public ArrayList<Weapon> weapons;
+//	public ArrayList<Weapon> weapons;
 	public WorldMap map;
 	public Camera cam;
 	public Input input;
@@ -28,7 +28,7 @@ public class WorldSpace {
 	public void init(GameContainer container, LooterGame game) {
 		players = new ArrayList<Player>();
 		enemies = new ArrayList<Enemy>();
-		weapons = new ArrayList<Weapon>();
+//		weapons = new ArrayList<Weapon>();
 		map = new WorldMap();
 		cam = new Camera();
 		cam.zoom = game.ScreenHeight/5f;

@@ -32,7 +32,8 @@ public class Actor {
 	boolean isOnFloor = false;
 	
 	public Actor(Vector3f position) {
-		this.position = position;
+		this.position = new Vector3f(position);
+		this.dir = new Vector3f(1,0,0);
 		this.velocity = 0;
 		this.currentRoom = 0;
 	}
@@ -49,6 +50,7 @@ public class Actor {
 		Image model = ImageMap.getActor(img);
 //		System.out.println(ImageMap.imagePathArr[2][0][0]);
 		Image slice;
+		
 		
 		int layers = model.getHeight()/model.getWidth();
 		
@@ -72,10 +74,12 @@ public class Actor {
 			float stack = (zoff-i)*(float)Math.cos(cam.angle);
 			temp.set((place.x)*cam.zoom, (place.y+stack)*cam.zoom);
 			slice = model.getSubImage(0,model.getHeight()-(model.getWidth()*((int)(i/height*layers)+1)), model.getWidth(), model.getWidth());
-			renderList.add(new GraphicsObj(slice, temp, 1/3f,cam, position.z+i));
-			System.out.println(((int)(i/height*layers)+1));
+			renderList.add(new GraphicsObj(slice, temp, 1/3f,cam, position.z+i, (double)VectorMath.getRotation(dir)));
+//			System.out.println(((int)(i/height*layers)+1));
 			i += height/layers;
 		}
+		
+		return;
 		
 //		renderList.add(new GraphicsObj(slice, place , cam, position.z + height));
 		

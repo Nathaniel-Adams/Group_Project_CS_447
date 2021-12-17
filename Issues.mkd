@@ -1,7 +1,5 @@
 # Pending #
 
-- [2] Insert Graphics/art
-- [3] Player movement
 - [4] Map Maker
 - [5] Weapons
 - [6] Enemy AI
@@ -14,3 +12,5 @@
 # Resolved #
 
 - [1] Render a world space
+- [2] Insert Graphics/art
+- [3] Player movement
