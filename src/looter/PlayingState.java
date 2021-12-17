@@ -39,12 +39,24 @@ public class PlayingState extends BasicGameState  {
 	
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		world.render(container, Game, g);
+		if (world != null) {
+			world.render(container, Game, g);
+			g.drawString(""+Game.mpID+"|"+world.MyPlayerID,Game.ScreenWidth/2-(float)"Waiting for Host".length()*4.58f, Game.ScreenHeight/2);
+			g.drawString(""+Game.is_online+"|"+Game.is_hosting, Game.ScreenWidth/2-(float)"Waiting for Host".length()*4.58f, Game.ScreenHeight/2+20f);
+			if (GameServer.world != null)g.drawString(""+GameServer.world.map, Game.ScreenWidth/2-(float)"GameServer".length()*4.58f, Game.ScreenHeight/2+40f);
+		}
+		else {
+			g.drawString("Waiting for Host",Game.ScreenWidth/2-(float)"Waiting for Host".length()*4.58f, Game.ScreenHeight/2);
+			g.drawString(""+Game.mpID+"|",Game.ScreenWidth/2-(float)"Waiting for Host".length()*4.58f, Game.ScreenHeight/2+40f);
+			g.drawString(""+Game.is_online+"|"+Game.is_hosting, Game.ScreenWidth/2-(float)"Waiting for Host".length()*4.58f, Game.ScreenHeight/2+20f);
+		}
+		
 		if (debug) {
 			DebugRenderer.renderDebugGrid(g,world.cam, world.map.Dungeon.get(0));
 			DebugRenderer.renderDebugScaffold(g,world.cam, world.map.Dungeon.get(0));
 		}
 	}
+	
 	
 	
 
@@ -71,18 +83,17 @@ public class PlayingState extends BasicGameState  {
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException { //called for EVERY entrance
 		input.clearKeyPressedRecord();
-		world = new WorldSpace();
-		world.init(container, Game);
+		if (!Game.is_online) {
+			world = new WorldSpace();
+			world.init();
+			world.startGame(1);
+			Game.worldspace=world;
+		}
+		
+		
 //		world.map.print();
-		Game.worldspace=world;
+		
 
-		LooterGame LG = (LooterGame) game;
-        if(LG.rooms == null) {
-            world.map.demoAdd();
-            world.map.demoAdd();
-        } else {
-            world.map.add(LG.curr);
-        }
 	}
 	
 	@Override

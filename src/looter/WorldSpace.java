@@ -1,5 +1,6 @@
 package looter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,49 +14,65 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class WorldSpace {
+public class WorldSpace implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	int MyPlayerID = 0;
 	
 	public ArrayList<Player> players;
 	public ArrayList<Enemy> enemies;
-//	public ArrayList<Weapon> weapons;
+	public ArrayList<Weapon> weapons;
 	public WorldMap map;
 	public Camera cam;
 	public Input input;
 	
 	
-	public void init(GameContainer container, LooterGame game) {
+	
+	public void init() {
 		players = new ArrayList<Player>();
 		enemies = new ArrayList<Enemy>();
-//		weapons = new ArrayList<Weapon>();
+		weapons = new ArrayList<Weapon>();
 		map = new WorldMap();
 		cam = new Camera();
-		cam.zoom = game.ScreenHeight/5f;
-		input = container.getInput();
-		
-		
+		cam.zoom = 1080/5f;
 	}
 	
 	
 	// grabs spawn room and finds the spawn point, adds player on spawn point
 	public void addPlayer() {
-		int temp = players.size();
-		Room r = map.Dungeon.get(0);
-		Vector3f spawn = new Vector3f();
-		for(int z=0; z<r.map.length; z++) {
-			for(int y=0; y<r.map[z].length; y++) {
-				for(int x=0; x<r.map[z][y].length; x++) {
-					if(BitMasker.getHOT(r.map[z][y][x]) == 3 
-							&& BitMasker.getEffectIndex(r.map[z][y][x]) == 7) {
-						spawn.set(x+.5f, y+.5f, BitMasker.getMaxHeight(r.map[z][y][x])/32f);
-						
+		if(map != null) {
+			int temp = players.size();
+			Room r = map.Dungeon.get(0);
+			Vector3f spawn = new Vector3f();
+			for(int z=0; z<r.map.length; z++) {
+				for(int y=0; y<r.map[z].length; y++) {
+					for(int x=0; x<r.map[z][y].length; x++) {
+						if(BitMasker.getHOT(r.map[z][y][x]) == 3 
+								&& BitMasker.getEffectIndex(r.map[z][y][x]) == 7) {
+							spawn.set(x+.5f, y+.5f, BitMasker.getMaxHeight(r.map[z][y][x])/32f);
+							
+						}
 					}
 				}
 			}
+			players.add(new Player(temp, spawn));
+			System.out.println("playeradded" + temp);
 		}
-		players.add(new Player(temp, spawn));
-		System.out.println("playeradded" + temp);
+	}
+	
+	public void startGame(int num) {
+		map = new WorldMap();
+		// init map here
+		map.demoAdd();
+		map.demoAdd();
+		addPlayers(num);
+	}
+	
+	public void addPlayers(int num) {
+		for (int i = 0; i<num; i++) {
+			addPlayer();
+		}
 	}
 	
 	public void addEnemy() {
@@ -89,6 +106,7 @@ public class WorldSpace {
 	}
 	
 	public void update(GameContainer container, LooterGame game, float delta) {
+		input = container.getInput();
 		cam.update(game, delta);
 //		System.out.println(cam.pos);
 		for (Player player : players) {

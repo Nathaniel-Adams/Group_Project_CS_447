@@ -1,7 +1,5 @@
 # Pending #
 
-- [6] Movement and room bug fixes
-- [7] Multiplayer
 - [8] Enemy AI
 - [9] Map Objectives
 - [10] Bosses
@@ -15,3 +13,5 @@
 - [3] Player movement
 - [4] Map Maker
 - [5] Weapons
+- [6] Movement and room bug fixes
+- [7] Multiplayer

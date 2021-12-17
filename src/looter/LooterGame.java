@@ -1,6 +1,5 @@
 package looter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -36,10 +35,10 @@ public class LooterGame extends StateBasedGame{
 	public final int ScreenHeight;
 	
 	public boolean is_hosting = false;
-//	MultiPlayerHandler mpHandler;
+	public boolean is_online = false;
+	MultiPlayerHandler mpHandler;
 	WorldSpace worldspace;
-	
-	public String path = null;
+	int mpID = 0;
 	Room curr = null;
 	ArrayList<Room> rooms;
 	// Entities
@@ -52,11 +51,6 @@ public class LooterGame extends StateBasedGame{
 		ScreenHeight = height;
 		ScreenWidth = width;
 		
-		try {
-			String path = new java.io.File(".").getCanonicalPath();
-			} catch(IOException e) {
-				e.printStackTrace();
-			}
 		
 //		Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
 	}
@@ -65,7 +59,7 @@ public class LooterGame extends StateBasedGame{
 	public void initStatesList(GameContainer container) throws SlickException {
 		addState(new TitleScreenState());
 		addState(new MainMenuState());
-//		addState(new LobbyState());
+		addState(new LobbyState());
 		addState(new PlayingState());
 		addState(new MapEditor());
 		addState(new LevelPreview());
