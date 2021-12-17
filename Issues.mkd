@@ -1,8 +1,7 @@
 # Pending #
 
-- [1] Render a world space
-- [2] Player movement
-- [3] Insert Graphics/art
+- [2] Insert Graphics/art
+- [3] Player movement
 - [4] Weapons
 - [5] Enemy AI
 - [6] Map Objectives
@@ -12,3 +11,5 @@
 - [10] Dungeon Randomization
 
 # Resolved #
+
+- [1] Render a world space

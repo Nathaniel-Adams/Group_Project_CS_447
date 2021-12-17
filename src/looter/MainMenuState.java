@@ -63,9 +63,9 @@ public class MainMenuState extends BasicGameState  {
 //			if (button.isMouseOver()) System.out.println("button " + buttons.indexOf(button));
 			if (button.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				switch (button.type){
-//				case TRANSITIONBUTTON:
+				case TRANSITIONBUTTON:
 //					if ("Host Game".equals(button.text)) Game.is_hosting = true;
-//					Game.enterState(button.flag, new FadeOutTransition(), new FadeInTransition());
+					Game.enterState(button.flag, new FadeOutTransition(), new FadeInTransition());
 				default:
 					System.out.println("button " + buttons.indexOf(button)+ " pressed");
 				}
