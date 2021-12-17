@@ -105,9 +105,19 @@ public class Actor {
 	// checks the given map and position against the actors current position for a collision
 	
 	public boolean checkMapCollision(WorldMap map, Vector3f next_pos) {
+		
+		if (next_pos.getZ() > 0.9f + (float)Math.floor(next_pos.getZ())) {
+			next_pos.setZ((float)Math.ceil(next_pos.getZ()));
+		}
+		double floor;
+		floor = (float)Math.floor(position.z);
+		if (position.z > 0.9f + floor) {
+			floor++;
+		}
 		Room room = map.Dungeon.get(currentRoom);
 		int next = room.getBlock(next_pos);
-		if(next > 0 && BitMasker.getMaxHeight(next)/32f - position.z > step) { // if the actors can step to the next position
+		
+		if(next > 0 && BitMasker.getMaxHeight(next)/32f + floor - position.z > step) { // if the actors can step to the next position
 			return true;
 		}
 		return false;
@@ -120,9 +130,9 @@ public class Actor {
 		int current = room.getBlock(position);
 //		System.out.println(current);
 		if (BitMasker.getExists(current) != 0) {
-			float floorHeight = BitMasker.getMaxHeight(current)/32f+room.offset.z;
+			float floorHeight = BitMasker.getMaxHeight(current)/32f + (int)(Math.floor(position.z));
 			if(floorHeight >= position.z 
-					&& BitMasker.getMinHeight(current) <= position.z) { // we are inside the block
+					&& BitMasker.getMinHeight(current) + room.offset.z <= position.z) { // we are inside the block
 				if (position.z < floorHeight) position.z = floorHeight;
 				isOnFloor = true;
 				return true;
