@@ -1,17 +1,23 @@
 package looter;
 
+import java.util.ArrayList;
+import java.io.IOException;
+import java.net.*;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.RoundedRectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-public class TitleScreenState extends BasicGameState  {
+public class LobbyState extends BasicGameState  {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	GLOBALS
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,13 +36,29 @@ public class TitleScreenState extends BasicGameState  {
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 //		g.resetTransform();
 		g.translate(cam.pos.x, cam.pos.y);
+		try {
+			renderText(g);
+		} catch (UnknownHostException e) {
+		}
+	}
+	
+	public void renderText(Graphics g) throws UnknownHostException {
 		g.setColor(Color.green);
-		String temp = "Looter Game";
+		String temp = "Lobby";
 		g.drawString(temp, Game.ScreenWidth/2/cam.zoom-(float)temp.length()*4.58f, Game.ScreenHeight/2/cam.zoom);
-		temp = "PRESS SPACE";
-		g.drawString(temp, Game.ScreenWidth/2/cam.zoom-(float)temp.length()*4.58f, Game.ScreenHeight/2/cam.zoom+50f);
-		g.resetTransform();
-		g.setColor(Color.white);
+		
+		if (!Game.is_hosting) {
+			g.setColor(Color.red);
+			g.drawString("JOINING", Game.ScreenWidth/2/cam.zoom-(float)"JOINING".length()*4.58f, Game.ScreenHeight/2/cam.zoom+40);
+		}
+		else {
+			temp = InetAddress.getLocalHost().getHostAddress();
+			g.drawString(temp, Game.ScreenWidth/2/cam.zoom-(float)temp.length()*4.58f, Game.ScreenHeight/2/cam.zoom+20);
+			g.drawString("HOSTING", Game.ScreenWidth/2/cam.zoom-(float)"HOSTING".toString().length()*4.58f, Game.ScreenHeight/2/cam.zoom+40);
+		}
+		temp = Game.mpHandler.status;
+		g.drawString(temp, Game.ScreenWidth/2/cam.zoom-(float)temp.toString().length()*4.58f, Game.ScreenHeight*.9f/cam.zoom);
+		
 	}
 
 	
@@ -52,7 +74,7 @@ public class TitleScreenState extends BasicGameState  {
 
 	@Override
 	public int getID() {
-		return GameState.TITLESCREENSTATE.ordinal();
+		return GameState.LOBBYSTATE.ordinal();
 		
 	}
 	
@@ -61,18 +83,23 @@ public class TitleScreenState extends BasicGameState  {
 		input.clearKeyPressedRecord();
 		Game.setLastState(getID());
 		cam = new Camera();
+		Game.mpHandler = new MultiPlayerHandler(Game);
+		Game.mpHandler.startMultiplayer();
 	}
 	
+	
+
+
 	@Override
 	public void leave(GameContainer container, StateBasedGame game) throws SlickException { //called for EVERY exit
 		
-	
 	}
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException { //called on initialization
 		Game = (LooterGame) game;
 		input = container.getInput();
+		
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +107,20 @@ public class TitleScreenState extends BasicGameState  {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void handleInput() {
-		if (input.isKeyPressed(Input.KEY_SPACE)) Game.enterState(GameState.MAINMENUSTATE.ordinal(), new FadeOutTransition(), new FadeInTransition());
+		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+			Game.is_hosting = false;
+			Game.mpHandler.stopMultiplayer();
+//			GameServer.closeServer();
+//			if (Game.server != null && Game.server.isAlive()) Game.server.stop();
+//			if (Game.client != null && Game.client.isAlive()) Game.client.stop();
+//			
+			Game.enterState(Game.getLastState(), new FadeOutTransition(), new FadeInTransition());
+		}
+		
+		if (input.isKeyPressed((Input.KEY_SPACE))){
+			GameClient.send(new DataPacket(TransmissionType.declaration, DataType.STRING, "LOAD"));
+			
+		}
 	}
 	
 	public void keyPressed(int key, char code) {

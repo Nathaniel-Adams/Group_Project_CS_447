@@ -8,7 +8,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.gui.MouseOverArea;
 
 enum ButtonType {
-	TRANSITIONBUTTON
+	TRANSITIONBUTTON,
+	TOGGLEBUTTON
 }
 
 public class Button {
@@ -35,6 +36,10 @@ public class Button {
 		this.text = text;
 	}
 	
+	public Button(GameContainer container, Image testTexture, float x, float y, String string) {
+		this(container, testTexture, (int)x, (int)y, string);
+	}
+
 	public void setType(ButtonType type) {
 		this.type = type;
 	}

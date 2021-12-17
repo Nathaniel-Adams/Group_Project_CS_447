@@ -1,9 +1,15 @@
 package looter;
 
+// Basic Layout for all States
+
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.RoundedRectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -16,7 +22,7 @@ public class DummyGameState extends BasicGameState  {
 	LooterGame Game;
 	Input input; // player input listener
 	float delta; // multiply any unit by this value to convert to units per second
-//	Camera cam;
+	Camera cam;
 	
 	boolean debug;
 	
@@ -48,7 +54,7 @@ public class DummyGameState extends BasicGameState  {
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException { //called for EVERY entrance
 		input.clearKeyPressedRecord();
-//		cam = new Camera();
+		cam = new Camera();
 		
 	}
 	
@@ -76,8 +82,8 @@ public class DummyGameState extends BasicGameState  {
 	
 	public void mouseDragged(int old_x, int old_y, int new_x, int new_y) {
 		Vector2f moved = new Vector2f(new_x - old_x, new_y - old_y);
-//		cam.pos.setX(moved.x+cam.pos.x);
-//		cam.pos.setY(moved.y+cam.pos.y);
+		cam.pos.setX(moved.x+cam.pos.x);
+		cam.pos.setY(moved.y+cam.pos.y);
 	}
 
 }

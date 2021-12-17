@@ -1,0 +1,17 @@
+# Pending #
+
+- [8] Enemy AI
+- [9] Map Objectives
+- [10] Bosses
+- [11] Weapon Randomization
+- [12] Dungeon Randomization
+
+# Resolved #
+
+- [1] Render a world space
+- [2] Insert Graphics/art
+- [3] Player movement
+- [4] Map Maker
+- [5] Weapons
+- [6] Movement and room bug fixes
+- [7] Multiplayer
