@@ -24,7 +24,7 @@ public class LooterGame extends StateBasedGame{
 	
 //	public boolean is_hosting = false;
 //	MultiPlayerHandler mpHandler;
-//	WorldSpace worldspace;
+	WorldSpace worldspace;
 	
 	
 	public LooterGame(String name, int width, int height){
@@ -41,7 +41,7 @@ public class LooterGame extends StateBasedGame{
 		addState(new TitleScreenState());
 		addState(new MainMenuState());
 //		addState(new LobbyState());
-//		addState(new PlayingState());
+		addState(new PlayingState());
 	}
 	
 	public void setLastState(int curState) {
