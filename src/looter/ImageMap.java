@@ -12,9 +12,9 @@ public class ImageMap {
 	public static String[][][] imagePathArr= {
 			{ // set 1
 				// floor
-				{"looter/resource/tile.png"},
+				{"looter/resource/ground_tile.png"},
 				// wall
-				{"looter/resource/tile.png"}
+				{"looter/resource/brick_wall.png"}
 			},
 			{ // set 2
 				// floor
@@ -60,10 +60,10 @@ public class ImageMap {
 			},
 			{ // Hazards and Objectives
 				{"looter/resource/tile.png"}, // Hazards
-				{"looter/resource/tile.png"} // Objectives
+				{"looter/resource/Flag_Capture.png"} // Objectives
 			},
 			{ // Toggles and Doors
-				{"looter/resource/tile.png"}, // Toggles
+				{"looter/resource/Light_tile.png"}, // Toggles
 				{"looter/resource/tile.png"} // Doors
 			},
 			{ // Spawners
@@ -71,8 +71,8 @@ public class ImageMap {
 				{"looter/resource/tile.png"} // Enemy spawner
 			},
 			{ // World entities
-				{"looter/resource/tile.png"}, // weapons
-				{"looter/resource/tile.png"} // actors
+				{"looter/resource/pistol.png", "looter/resource/rifle.png", "looter/resource/shotgun.png"}, // weapons
+				{"looter/resource/player.png", "looter/resource/enemy.png"} // actors
 			}
 		};
 	
