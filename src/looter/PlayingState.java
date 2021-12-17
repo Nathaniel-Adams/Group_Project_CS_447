@@ -76,6 +76,13 @@ public class PlayingState extends BasicGameState  {
 //		world.map.print();
 		Game.worldspace=world;
 
+		LooterGame LG = (LooterGame) game;
+        if(LG.rooms == null) {
+            world.map.demoAdd();
+            world.map.demoAdd();
+        } else {
+            world.map.add(LG.curr);
+        }
 	}
 	
 	@Override
@@ -127,6 +134,22 @@ public class PlayingState extends BasicGameState  {
 		
 		if (input.isKeyPressed(Input.KEY_TAB)) {
 			debug = !debug;
+		}
+		
+		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !world.players.isEmpty() ) {
+			world.players.get(world.MyPlayerID).weapon.fire(world.players.get(world.MyPlayerID).bullets, delta, world.players.get(world.MyPlayerID).actor.currentRoom);
+		}
+		
+		if (input.isKeyPressed(Input.KEY_1) && !world.players.isEmpty()) {
+			world.players.get(world.MyPlayerID).weapon.setType(1);
+		}
+		
+		if (input.isKeyPressed(Input.KEY_2) && !world.players.isEmpty()) {
+			world.players.get(world.MyPlayerID).weapon.setType(2);
+		}
+		
+		if (input.isKeyPressed(Input.KEY_3) && !world.players.isEmpty()) {
+			world.players.get(world.MyPlayerID).weapon.setType(3);
 		}
 	}
 	

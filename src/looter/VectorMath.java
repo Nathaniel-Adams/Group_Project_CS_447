@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.util.FastTrig;
 
 
+
 public class VectorMath {
 
 	public static void rotate(Vector2f vec, double angle) {
@@ -24,6 +25,14 @@ public class VectorMath {
 		float len = vec.length();
 		vec.set(len *(float) FastTrig.cos(t),
 				len *(float) FastTrig.sin(t));
+	}
+	
+	public static void setRotation2d(Vector3f vec, double angle) {
+		double t = angle % (2*Math.PI);
+		float len = new Vector2f(vec.x, vec.y).length();
+		vec.set(len *(float) FastTrig.cos(t),
+				len *(float) FastTrig.sin(t),
+				vec.z);
 	}
 	
 	public static void rotate2d(Vector3f vec, double angle) {
@@ -84,6 +93,22 @@ public class VectorMath {
 	
 	public static Vector2f calculatePoint(double angle, double hangle) {
 		return new Vector2f((float)Math.cos(angle),(float)Math.sin(angle)*(float)Math.sin(hangle));
+	}
+	
+	public static Vector2f calculateSkewDir(Vector2f point, Camera cam) {
+//		.angleTo(new Vector((point.getX()-sg.ScreenWidth/2),(point.getY()-sg.ScreenHeight/2)))
+		Vector2f v = new Vector2f(1920/2f,1080/2f);
+		Double angle = angleTo(new Vector2f(cam.pos.x, cam.pos.y), new Vector2f(point.x-v.x, point.y-v.y));
+//		System.out.println(b);
+//		Double angle = Math.toRadians(b);
+		float length = distance(v, point);//new Vector(1920/2f, 1080/2f).distance(point);
+		Vector2f ret = (Vector2f) new Vector2f(
+				(float)Math.cos(angle),
+				(float)Math.sin(angle)/(float)Math.sin(cam.angle)
+				).scale(length/cam.zoom);
+		System.out.println(ret);
+		ret = new Vector2f((cam.pos.getX()+ret.getX()), (cam.pos.getY() + ret.getY()));
+		return ret;
 	}
 
 	public static Vector2f normalise(Vector2f vec) {

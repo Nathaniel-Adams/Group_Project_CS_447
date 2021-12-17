@@ -53,7 +53,10 @@ public class MuffinHelper {
 	}
 	
 	public void saveLevel(Room room) {
-		rooms.add(room.ID, room);
+		if(room.ID == rooms.size()) {
+			rooms.add(room.ID, room);
+		}
+		rooms.set(room.ID, room);
 		saveLevelFile(path);
 	}
 }

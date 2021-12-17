@@ -41,6 +41,7 @@ public class LooterGame extends StateBasedGame{
 	
 	public String path = null;
 	Room curr = null;
+	ArrayList<Room> rooms;
 	// Entities
 	
 	// Resources
