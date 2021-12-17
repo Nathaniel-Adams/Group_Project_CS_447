@@ -44,6 +44,11 @@ public class Player {
 		if (weapon != null) {
 			weapon.updatePosition(actor);
 		}
+		if (!bullets.isEmpty()) {
+			for (Bullet bullet : bullets) {
+				bullet.update(delta, world);
+			}
+		}
 	}
 	
 	

@@ -129,7 +129,7 @@ public class PlayingState extends BasicGameState  {
 			debug = !debug;
 		}
 		
-		if (input.isKeyPressed(Input.MOUSE_LEFT_BUTTON)) {
+		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 			world.players.get(world.MyPlayerID).weapon.fire(world.players.get(world.MyPlayerID).bullets, delta);
 		}
 	}

@@ -42,13 +42,14 @@ public class Weapon {
 	
 	public float accuracy;
 	public float bloom;
+	public int cooldown;
 	
 	public float timeout = 0;
 	
 	public Weapon() {
 		guntype = WeaponType.pistol;
 		ammotype = BulletType.normal;
-		roftype = FireRate.mid;
+		roftype = FireRate.fast;
 		rof = getROF();
 		dps = 100;
 		range = 10;
@@ -59,7 +60,7 @@ public class Weapon {
 	public Weapon(float dps) {
 		guntype = WeaponType.pistol;
 		ammotype = BulletType.normal;
-		roftype = FireRate.mid;
+		roftype = FireRate.fast;
 		rof = getROF();
 		this.dps = dps;
 		range = 10;
@@ -70,6 +71,7 @@ public class Weapon {
 	public void fire(ArrayList<Bullet> bullets, float delta) {
 		if (timeout <= 0) {
 			bullets.add(new Bullet(this));
+			timeout = (getROF()/60);
 		}
 		else if (timeout > 0) timeout -= delta;
 	}

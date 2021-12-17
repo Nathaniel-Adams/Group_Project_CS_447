@@ -1,6 +1,5 @@
 # Pending #
 
-- [5] Weapons
 - [6] Enemy AI
 - [7] Map Objectives
 - [8] Bosses
@@ -14,3 +13,4 @@
 - [2] Insert Graphics/art
 - [3] Player movement
 - [4] Map Maker
+- [5] Weapons

@@ -72,7 +72,8 @@ public class ImageMap {
 			},
 			{ // World entities
 				{"looter/resource/pistol.png", "looter/resource/rifle.png", "looter/resource/shotgun.png"}, // weapons
-				{"looter/resource/player.png", "looter/resource/enemy.png"} // actors
+				{"looter/resource/player.png", "looter/resource/enemy.png"}, // actors
+				{"looter/resource/Bullet.png", "looter/resource/laser.png"}
 			}
 		};
 	
@@ -154,6 +155,12 @@ public class ImageMap {
 	
 	public static Image getActor(int num) { //NOT BITMASKED
 		return imageMap.get(11).get(1).get(num);
+	}
+	
+	// Get image for the projectile
+//	======================================
+	public static Image getProj(int num) {
+		return imageMap.get(11).get(2).get(num);
 	}
 
 	// Static initializer so the textures are loaded on runtime
