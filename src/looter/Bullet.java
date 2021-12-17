@@ -12,13 +12,16 @@ public class Bullet {
 	float range;
 	float damage;
 	int img;
+	public boolean remove = false;
+	float traveldistance = 0;
+	public int room = 0;
 	
 	Vector3f position = new Vector3f();
 	Vector2f dir = new Vector2f(0, 0);
 	public float speed;
 	
 //	===========================
-	public Bullet(Weapon gun) {
+	public Bullet(Weapon gun, int Room) {
 		type = gun.ammotype;
 		range = gun.range;
 		damage = gun.dmg;
@@ -26,6 +29,7 @@ public class Bullet {
 		position.set(gun.position);
 		dir.set(gun.dir.y, -gun.dir.x);;
 		img = 0;
+		room = Room;
 	}// Bullet()
 //	============
 	
@@ -57,12 +61,27 @@ public class Bullet {
 	
 	public void update(float delta, WorldSpace world) {
 		move(delta, world);
+		traveldistance += delta;
+		if (traveldistance >= range)
+			remove = true;
 	}// update()
 	
 	public void move(float delta, WorldSpace world) {
 		
 		position.set(position.x + (dir.x * (delta * speed)), position.y + (dir.y * (delta * speed)), position.z);
-		//position.set(VectorMath.add3d(position, (Vector2f)dir.scale(speed * delta)));
+		if (!checkMapCollision(world.map, position)) {
+			remove = true;
+		}
+	}
+	
+	public boolean checkMapCollision(WorldMap map, Vector3f next_pos) {
+		Room room = map.Dungeon.get(this.room);
+		int next = room.getBlock(next_pos);
+		float test = BitMasker.getMaxHeight(next)/32f;
+		if(next > 0 && BitMasker.getMaxHeight(next)/32f < position.z) { // make sure the bullet is higher than the block
+			return true;
+		}
+		return false;
 	}
 	
 	

@@ -1,5 +1,7 @@
 package looter;
 
+import java.util.Iterator;
+
 import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -47,6 +49,11 @@ public class Player {
 		if (!bullets.isEmpty()) {
 			for (Bullet bullet : bullets) {
 				bullet.update(delta, world);
+			}
+		}
+		for (Iterator<Bullet> i = bullets.iterator(); i.hasNext();) {
+			if (i.next().remove) {
+				i.remove();
 			}
 		}
 	}

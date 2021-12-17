@@ -74,7 +74,8 @@ public class MapEditor extends BasicGameState  {
 			DebugRenderer.renderDebugGrid(g, cam, room); // Render the x/y grid
 			DebugRenderer.renderDebugScaffold(g, cam, room); // Render the z height bars
 			DebugRenderer.renderSelectedCube(g, cam, room, next);
-			g.drawString("RoomID: "  + room.ID, xCoord, (int)(yCoord)+(yOffset*-2));
+			g.drawString("RoomID: "  + room.ID, xCoord, (int)(yCoord)+(yOffset*-3));
+			g.drawString("Room Type: "  + room.type, xCoord, (int)(yCoord)+(yOffset*-2));
 			if(next.z <= cur.z && next.y <= cur.y && next.x <= cur.x && 1 == BitMasker.getExists(room.map[(int) (next.z)][(int) (next.y)][(int) (next.x)])) {
 				g.drawString("current Prop Type:"  + settings[BitMasker.getHOT(room.map[(int) (next.z)][(int) (next.y)][(int) (next.x)])], xCoord, (int)(yCoord)+(yOffset*6)); 
 				g.drawString("current E-index:"  + BitMasker.getEffectIndex(room.map[(int) (next.z)][(int) (next.y)][(int) (next.x)]), xCoord, (int)(yCoord)+(yOffset*7)); 
@@ -150,7 +151,7 @@ public class MapEditor extends BasicGameState  {
 					break;
 				case "load":
 					try {
-						room = MH.loadRooms(0);
+						room = MH.loadRooms(room.ID);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -191,7 +192,9 @@ public class MapEditor extends BasicGameState  {
 		if(LG.curr != null) {
 			room = LG.curr;
 		}
-		
+		cur.x = room.map[0][0].length;
+		cur.y = room.map[0].length;
+		cur.z = room.map.length;
 	}
 	
 	@Override
@@ -276,7 +279,34 @@ public class MapEditor extends BasicGameState  {
 		
 	if (room != null) {
 		if(input.isKeyPressed(Input.KEY_I)) {
-			room.ID = room.ID + 1;
+			room.ID = (room.ID + 1);
+			if(Game.rooms.size() < room.ID){
+				room.ID = 0;
+			}
+		}
+		if(input.isKeyPressed(Input.KEY_O)) {
+			switch(room.type) {
+				case spawn:
+					room.type = RoomType.boss;
+					break;
+				case boss:
+					room.type = RoomType.hallway;
+					break;
+				case hallway:
+					room.type = RoomType.junction;
+					break;
+				case junction:
+					room.type = RoomType.encounter;
+					break;
+				case encounter:
+					room.type = RoomType.miniboss;
+					break;
+				case miniboss:
+					room.type = RoomType.spawn;
+					break;
+			}
+					
+			
 		}
 		if(mode == "location") {
 			if(input.isKeyPressed(Input.KEY_UP)) {
@@ -443,8 +473,8 @@ public class MapEditor extends BasicGameState  {
 		int[][][] m = new int[(int) z][(int) y][(int) x];
 		Room temp = new Room();
 		temp.map = m;
-		temp.ID = 0;
-		temp.type = RoomType.spawn;
+		temp.ID = room.ID;
+		temp.type = room.type;
 		if(room == null) {
 			for(int j = 0; j < y; j++) {
 				for(int i = 0; i < x; i++) {

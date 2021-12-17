@@ -68,9 +68,9 @@ public class Weapon {
 		img = 0;
 	}
 	
-	public void fire(ArrayList<Bullet> bullets, float delta) {
+	public void fire(ArrayList<Bullet> bullets, float delta, int room) {
 		if (timeout <= 0) {
-			bullets.add(new Bullet(this));
+			bullets.add(new Bullet(this, room));
 			timeout = (getROF()/60);
 		}
 		else if (timeout > 0) timeout -= delta;

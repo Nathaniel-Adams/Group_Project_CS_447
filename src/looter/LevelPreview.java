@@ -39,6 +39,7 @@ public class LevelPreview extends BasicGameState  {
 	int index = 0;
 	int xCoord;
 	float yCoord;
+	int yOffset;
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	UPDATE LOOP
@@ -49,7 +50,8 @@ public class LevelPreview extends BasicGameState  {
 		ArrayList<GraphicsObj> renderList = new ArrayList<GraphicsObj>();
 		room.render(renderList, cam);
 		Collections.sort(renderList);
-		g.drawString("Room Index: " + index, xCoord, (int)(yCoord));
+		g.drawString("Room Index: " + room.ID, xCoord, (int)(yCoord));
+		g.drawString("Room Type: " + room.type, xCoord, (int)(yCoord)+yOffset);
 		for(GraphicsObj r: renderList) r.draw();
 		for(Button button:buttons) {
 			button.render(container, g);
@@ -72,8 +74,12 @@ public class LevelPreview extends BasicGameState  {
 			if (button.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				switch (button.type){
 				case TRANSITIONBUTTON:
-					if ("Edit".equals(button.text)) Game.curr = room;
+					if ("Edit".equals(button.text)) {
+						Game.curr = room;
+						Game.rooms = rooms;
+					}
 					Game.enterState(button.flag, new FadeOutTransition(), new FadeInTransition());
+					break;
 				case TOGGLEBUTTON:
 					switch(button.text) {
 					case "Prevous":
@@ -148,6 +154,7 @@ public class LevelPreview extends BasicGameState  {
 		createButtons(container);
 		xCoord = (int)(Game.ScreenWidth*.1f);
 		yCoord = Game.ScreenHeight*.1f;
+		yOffset = 15;
 	}
 
 	private void createButtons(GameContainer container) throws SlickException {
