@@ -38,7 +38,7 @@ public class Room implements Serializable{
 	int up=-1;
 	int down=-1;
 	
-	float gravity = -1;
+	float gravity = -2;
 	int RoomLight = 15;
 	
 //	ArrayList<Objective> objectiveList;
