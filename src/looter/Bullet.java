@@ -21,13 +21,18 @@ public class Bullet {
 	public float speed;
 	
 //	===========================
-	public Bullet(Weapon gun, int Room) {
+	public Bullet(Weapon gun, int Room, float angle) {
 		type = gun.ammotype;
 		range = gun.range;
 		damage = gun.dmg;
 		speed = 3+gun.rof/80f;
 		position.set(gun.position);
-		dir.set(gun.dir.y, -gun.dir.x);;
+		if (angle == 0.0)
+			dir.set(gun.dir.y, -gun.dir.x);
+		else {
+			dir.set(gun.dir.y, -gun.dir.x);
+			VectorMath.rotate(dir, angle);
+		}// else
 		img = 0;
 		room = Room;
 	}// Bullet()

@@ -70,8 +70,12 @@ public class Weapon {
 	
 	public void fire(ArrayList<Bullet> bullets, float delta, int room) {
 		if (timeout <= 0) {
-			bullets.add(new Bullet(this, room));
-			timeout = (getROF()/60);
+			bullets.add(new Bullet(this, room, 0));
+			if (guntype == WeaponType.shotgun) {
+				bullets.add(new Bullet(this, room, -0.25f));
+				bullets.add(new Bullet(this, room, 0.25f));
+			}
+			timeout = 1/(rof/60);
 		}
 		else if (timeout > 0) timeout -= delta;
 	}
@@ -130,12 +134,15 @@ public class Weapon {
 		switch(type) {
 		case 1:
 			guntype = WeaponType.pistol;
+			img = 0;
 			break;
 		case 2:
 			guntype = WeaponType.rifle;
+			img = 1;
 			break;
 		case 3:
 			guntype = WeaponType.shotgun;
+			img = 2;
 			break;
 		default:
 			guntype = WeaponType.melee;

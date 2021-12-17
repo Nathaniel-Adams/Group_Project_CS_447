@@ -74,10 +74,8 @@ public class LevelPreview extends BasicGameState  {
 			if (button.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				switch (button.type){
 				case TRANSITIONBUTTON:
-					if ("Edit".equals(button.text)) {
-						Game.curr = room;
-						Game.rooms = rooms;
-					}
+					Game.curr = room;
+					Game.rooms = rooms;
 					Game.enterState(button.flag, new FadeOutTransition(), new FadeInTransition());
 					break;
 				case TOGGLEBUTTON:

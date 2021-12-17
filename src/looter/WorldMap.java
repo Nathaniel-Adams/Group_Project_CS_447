@@ -16,8 +16,6 @@ public class WorldMap implements Serializable{
 	public WorldMap() {
 		Dungeon = new HashMap<Integer,Room>();
 		numRooms = 0;
-		demoAdd();
-		demoAdd();
 	}
 	
 	public void render(ArrayList<GraphicsObj> renderList, Camera cam, int roomNum) {
@@ -38,6 +36,11 @@ public class WorldMap implements Serializable{
 			}
 		}
 		
+	}
+	
+	public void add(Room room) {
+		Dungeon.put(numRooms, room);
+		numRooms++;
 	}
 	
 	public void demoAdd() {
