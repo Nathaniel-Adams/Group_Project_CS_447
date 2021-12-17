@@ -1,5 +1,6 @@
 package looter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -15,7 +16,8 @@ enum GameState{
 	MAINMENUSTATE,
 	LOBBYSTATE,
 	PLAYINGSTATE,
-	MAPEDITOR
+	MAPEDITOR,
+	LEVELPREVIEW
 }
 
 public class LooterGame extends StateBasedGame{
@@ -37,6 +39,8 @@ public class LooterGame extends StateBasedGame{
 //	MultiPlayerHandler mpHandler;
 	WorldSpace worldspace;
 	
+	public String path = null;
+	Room curr = null;
 	// Entities
 	
 	// Resources
@@ -47,6 +51,11 @@ public class LooterGame extends StateBasedGame{
 		ScreenHeight = height;
 		ScreenWidth = width;
 		
+		try {
+			String path = new java.io.File(".").getCanonicalPath();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
 		
 //		Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
 	}
@@ -57,7 +66,8 @@ public class LooterGame extends StateBasedGame{
 		addState(new MainMenuState());
 //		addState(new LobbyState());
 		addState(new PlayingState());
-//		addState(new MapEditor());
+		addState(new MapEditor());
+		addState(new LevelPreview());
 	}
 	
 	public void setLastState(int curState) {
