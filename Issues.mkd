@@ -2,13 +2,14 @@
 
 - [2] Insert Graphics/art
 - [3] Player movement
-- [4] Weapons
-- [5] Enemy AI
-- [6] Map Objectives
-- [7] Bosses
-- [8] Multiplayer
-- [9] Weapon Randomization
-- [10] Dungeon Randomization
+- [4] Map Maker
+- [5] Weapons
+- [6] Enemy AI
+- [7] Map Objectives
+- [8] Bosses
+- [9] Multiplayer
+- [10] Weapon Randomization
+- [11] Dungeon Randomization
 
 # Resolved #
 
